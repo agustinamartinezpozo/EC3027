@@ -1,2 +1,2 @@
 # EC3027
-Repository associated with the module EC3017: Data Analytics in Practice
+Repository associated with the module EC3027: Data Analytics in Practice
