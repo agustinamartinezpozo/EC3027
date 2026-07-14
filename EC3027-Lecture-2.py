@@ -20,6 +20,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import Perceptron
+from sklearn.linear_model import SGDClassifier
 from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
@@ -150,6 +151,32 @@ plt.ylabel('Weekly hours [standardized]')
 plt.legend(loc='upper left')
 plt.tight_layout()
 plt.savefig('figures/lec2_perceptron_regions.png', dpi=300)
+plt.show()
+
+# %% Single-layer NN: Adaline (Adaptive Linear Neuron)
+
+# scikit-learn has no class literally called "Adaline": it is the textbook
+# name for a linear neuron trained by gradient descent to minimize the
+# sum of squared errors between the linear activation phi(z) = z and the
+# true label (the Widrow-Hoff / LMS rule), with the 0/1 step applied only
+# at prediction time. SGDClassifier(loss='squared_error') implements
+# exactly that rule, so we reuse it here instead of coding our own
+# gradient-descent loop.
+ada = SGDClassifier(loss='squared_error', learning_rate='constant',
+                    eta0=0.01, random_state=1)
+ada.fit(X_train_std, y_train)
+
+print(f'Adaline test accuracy:    {ada.score(X_test_std, y_test):.3f}')
+print(f'Perceptron test accuracy: {ppn.score(X_test_std, y_test):.3f}')
+print(f'Logit test accuracy:      {lr.score(X_test_std, y_test):.3f}')
+
+plot_decision_regions(X_plot, y_plot, classifier=ada,
+                      test_idx=test_range)
+plt.xlabel('Age [standardized]')
+plt.ylabel('Weekly hours [standardized]')
+plt.legend(loc='upper left')
+plt.tight_layout()
+plt.savefig('figures/lec2_adaline_regions.png', dpi=300)
 plt.show()
 
 # %% Support Vector Machine
