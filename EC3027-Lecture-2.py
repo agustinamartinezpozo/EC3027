@@ -143,6 +143,15 @@ ppn.fit(X_train_std, y_train)
 print(f'Perceptron test accuracy: {ppn.score(X_test_std, y_test):.3f}')
 print(f'Logit test accuracy:      {lr.score(X_test_std, y_test):.3f}')
 
+plot_decision_regions(X_plot, y_plot, classifier=ppn,
+                      test_idx=test_range)
+plt.xlabel('Age [standardized]')
+plt.ylabel('Weekly hours [standardized]')
+plt.legend(loc='upper left')
+plt.tight_layout()
+plt.savefig('figures/lec2_perceptron_regions.png', dpi=300)
+plt.show()
+
 # %% Support Vector Machine
 
 svm = SVC(kernel='rbf', C=1.0, gamma='scale', random_state=1)
