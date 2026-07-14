@@ -43,6 +43,19 @@ print(X_df.head())
 print(X_df.shape)
 print(f'Share with income > $50k: {y_all.mean():.3f}')
 
+# %% Random 50% subsample (keeps plots from looking too saturated)
+
+# Stratified so the $50k share above is preserved; everything below
+# (scatter plot, decision regions, full-feature comparison) now runs
+# on this half-sample instead of the full RI extract.
+X_df, _, y_all, _ = train_test_split(X_df, y_all,
+                                     train_size=0.50,
+                                     stratify=y_all,
+                                     random_state=1)
+X_df = X_df.reset_index(drop=True)
+
+print(f'Subsample shape: {X_df.shape}')
+
 # %% A two-feature version for visualization
 
 # For the decision-region plots we keep two interpretable features: age and weekly hours of work.
